@@ -4,7 +4,6 @@ import Home from '../pages/home';
 import ErrorPage from '../pages/error';
 import ROUTES from '../shared/constants/routes';
 import MainLayout from './MainLayout';
-import Product from '../pages/product';
 import Catalog from '../pages/catalog';
 import Cart from '../pages/cart';
 
@@ -17,10 +16,6 @@ const router = createBrowserRouter([
       {
         path: ROUTES.ROOT,
         element: <Home />,
-      },
-      {
-        path: ROUTES.PRODUCT,
-        element: <Product />,
       },
       {
         path: ROUTES.CATALOG,
