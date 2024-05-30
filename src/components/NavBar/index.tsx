@@ -31,7 +31,7 @@ const NavBar = () => {
             >
               <img src={Logo} alt='logo' className='w-[50px] lg:w-[60px]' />
               <span className='font-medium text-cyan-400 text-2xl hidden lg:block'>
-                Mini<span className='text-cyan-800'>Mart</span>
+                Mini<span className='text-cyan-800'>Mark</span>
               </span>
             </Link>
           )}
