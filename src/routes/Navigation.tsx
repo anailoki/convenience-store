@@ -6,6 +6,7 @@ import ROUTES from '../shared/constants/routes';
 import MainLayout from './MainLayout';
 import Catalog from '../pages/catalog';
 import Cart from '../pages/cart';
+import Profile from '../pages/profile';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.CART,
         element: <Cart />,
+      },
+      {
+        path: ROUTES.PROFILE,
+        element: <Profile />,
       },
     ],
   },

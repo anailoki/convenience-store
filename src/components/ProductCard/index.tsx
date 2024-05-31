@@ -5,13 +5,15 @@ import ModalGuest from '../ModalGuest';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../shared/constants/routes';
 import Counter from '../Counter';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addProduct } from '../../redux/slices/cart.slice';
 import { UTILS } from '../../shared/utils';
 import { postShoppingCart } from '../../services/cart.service';
 import { showAlert } from '../../redux/slices/alert.slice';
 import { LITERAL } from '../../shared/constants/literal';
 import Logo from '../../assets/logoMinimalista.svg';
+import { setFavorites } from '../../redux/slices/products.slice';
+import { RootState } from '../../redux/store';
 interface IProductCardProps {
   id: string;
   name: string;
@@ -29,6 +31,7 @@ const ProductCard = ({
   isAdded,
   onClick,
 }: IProductCardProps) => {
+  const { favorites } = useSelector((state: RootState) => state.products);
   const [openGuestModal, setOpenGuestModal] = useState(false);
   const [showCounter, setShowCounter] = useState(false);
   const [count, setCount] = useState(0);
@@ -102,6 +105,15 @@ const ProductCard = ({
     new Notification(notifTitle, options);
   };
 
+  const handlerFavorite = () => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      setOpenGuestModal(true);
+      return;
+    }
+    dispatch(setFavorites(id));
+  };
+
   return (
     <div className='relative bg-slate-50 shadow rounded-md p-4 flex flex-col hover:shadow-lg transition duration-300 ease-in-out cursor-pointer'>
       <ModalGuest
@@ -121,11 +133,15 @@ const ProductCard = ({
       )}
       <div className='flex justify-end'>
         <IconButton
-          onClick={() => setOpenGuestModal(true)}
+          onClick={handlerFavorite}
           className='!px-0'
           aria-label='heart'
         >
-          <Heart size={20} />
+          {favorites.includes(id) ? (
+            <Heart size={20} weight='fill' color='#da1e28' />
+          ) : (
+            <Heart size={20} />
+          )}
         </IconButton>
       </div>
       <div onClick={onClick}>

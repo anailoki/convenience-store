@@ -10,4 +10,6 @@ export const LITERAL = {
   modalCreateAccountTitle: '¡Regístrate con nosotros!',
   modalCreateAccountDescription:
     '¡Regístrate ahora y disfruta de todas las ventajas de ser un usuario registrado!',
+  errorInputs: 'Por favor, llena todos los campos requeridos*',
+  successRegister: '¡Registro exitoso!',
 };

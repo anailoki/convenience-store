@@ -4,6 +4,7 @@ const ROUTES = {
   PRODUCT: '/product/',
   CATALOG: '/catalog/',
   CART: '/cart/',
+  PROFILE: '/profile/',
 };
 
 export default ROUTES;

@@ -36,19 +36,16 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
               unmountOnExit
             >
               <Alert
+                className='flex justify-center items-center'
                 icon={
                   alert.type === 'error' ? (
-                    <XCircle size={32} weight='fill' color='bg-red-500' />
+                    <XCircle size={32} weight='fill' color='#da1e28' />
                   ) : alert.type === 'info' ? (
-                    <WarningCircle
-                      size={32}
-                      weight='fill'
-                      color='bg-blue-500'
-                    />
+                    <WarningCircle size={32} weight='fill' color='#1d8ff3' />
                   ) : alert.type === 'warning' ? (
-                    <Warning size={32} weight='fill' color='bg-yellow-500' />
+                    <Warning size={32} weight='fill' color='#f5c51a' />
                   ) : (
-                    <SealCheck size={32} weight='fill' color='bg-green-500' />
+                    <SealCheck size={32} weight='fill' color='#24a148' />
                   )
                 }
                 severity={alert.type}

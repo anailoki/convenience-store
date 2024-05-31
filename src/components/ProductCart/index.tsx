@@ -31,7 +31,7 @@ const ProductCard = ({
         <img
           src={image}
           alt='Imagen del producto'
-          className='size-20 xl:size-22'
+          className='size-20 xl:size-22 '
         />
 
         <div className='flex flex-col justify-center'>
@@ -53,7 +53,7 @@ const ProductCard = ({
             alt='Imagen del producto'
             className='size-20 xl:size-22'
           />
-          <p className='font-medium'>{name}</p>
+          <p className='font-medium ml-3'>{name}</p>
         </div>
 
         <div className='flex flex-row gap-4 items-center lg:w-1/3'>

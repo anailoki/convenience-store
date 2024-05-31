@@ -24,6 +24,15 @@ const NavBar = () => {
     return total;
   }, [items]);
 
+  const handlerProfile = () => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      setOpenGuestModal(true);
+      return;
+    }
+    navigate(ROUTES.PROFILE);
+  };
+
   return (
     <header className='relative z-50'>
       <ModalGuest
@@ -31,6 +40,7 @@ const NavBar = () => {
         setOpen={setOpenGuestModal}
         title={LITERAL.modalCreateAccountTitle}
         description={LITERAL.modalCreateAccountDescription}
+        onConfirm={() => navigate(ROUTES.PROFILE)}
       />
 
       <Container className='flex flex-row'>
@@ -76,7 +86,7 @@ const NavBar = () => {
               <IconButton
                 aria-label='profile'
                 size='small'
-                onClick={() => setOpenGuestModal(true)}
+                onClick={handlerProfile}
               >
                 <User size={22} />
               </IconButton>

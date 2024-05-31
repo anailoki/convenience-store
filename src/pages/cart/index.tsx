@@ -15,6 +15,7 @@ import ROUTES from '../../shared/constants/routes';
 import EmptyCartImg from '../../assets/img/empty-cart.webp';
 import Logo from '../../assets/logoMinimalista.svg';
 import { LITERAL } from '../../shared/constants/literal';
+import { PRODUCTS_IMG } from '../../shared/constants/images';
 
 const Cart = () => {
   const { total, items } = useSelector((state: RootState) => state.cart);
@@ -85,7 +86,7 @@ const Cart = () => {
               <div key={`${item.name}-${index}`}>
                 <ProductCart
                   name={item.name}
-                  image='https://cdn-icons-png.flaticon.com/512/3731/3731072.png'
+                  image={PRODUCTS_IMG[item.id]}
                   price={item.price * item.count}
                   countInit={item.count}
                   onDelete={() => handlerDeleteItem(item.id)}
