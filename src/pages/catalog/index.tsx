@@ -30,6 +30,7 @@ import {
   setCategories,
   setProducts as setProductState,
 } from '../../redux/slices/products.slice';
+import { PRODUCTS_IMG } from '../../shared/constants/images';
 
 const itemsPerPage = 8;
 
@@ -346,7 +347,7 @@ const Catalog = () => {
                   name={name}
                   price={price}
                   id={id}
-                  img='https://cdn-icons-png.flaticon.com/512/3731/3731072.png'
+                  img={PRODUCTS_IMG[id]}
                   isAdded={!!items.find((item) => item.id === id)}
                 />
               ))}

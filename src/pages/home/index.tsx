@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CategoryButton from '../../components/CategoryButton';
 import ProductCard from '../../components/ProductCard';
-import { CATEGORY_IMG } from '../../shared/constants/images';
+import { CATEGORY_IMG, PRODUCTS_IMG } from '../../shared/constants/images';
 import {
   getCategoriesApi,
   getProductsApi,
@@ -139,7 +139,7 @@ const Home = () => {
                 key={product.name}
                 name={product.name}
                 price={product.price}
-                img={'https://cdn-icons-png.flaticon.com/512/3731/3731072.png'}
+                img={PRODUCTS_IMG[product.id]}
                 isAdded={!!items.find((item) => item.id === product.id)}
               />
             ))}

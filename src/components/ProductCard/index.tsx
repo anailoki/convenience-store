@@ -120,14 +120,22 @@ const ProductCard = ({
         </Slide>
       )}
       <div className='flex justify-end'>
-        <IconButton onClick={() => setOpenGuestModal(true)} className='!px-0'>
+        <IconButton
+          onClick={() => setOpenGuestModal(true)}
+          className='!px-0'
+          aria-label='heart'
+        >
           <Heart size={20} />
         </IconButton>
       </div>
       <div onClick={onClick}>
-        <img src={img} alt='Product' className='w-40 h-fit mx-auto' />
+        <img
+          src={img}
+          alt='Product'
+          className='h-20 max-h-20 md:h-40 md:max-h-40 mx-auto'
+        />
         <div className='flex flex-col items-center'>
-          <p className='text-lg font-bold text-center py-1 leading-none'>
+          <p className='text-lg font-bold text-center py-1 leading-none mt-2'>
             {name}
           </p>
           <p className='text-md'>{UTILS.formatCurrency(price)}</p>
