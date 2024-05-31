@@ -56,7 +56,7 @@ const ProductCard = ({
           <p className='font-medium'>{name}</p>
         </div>
 
-        <div className='grid grid-cols-3 gap-0 items-center lg:w-1/3'>
+        <div className='flex flex-row gap-4 items-center lg:w-1/3'>
           <Counter
             countInit={countInit}
             onChage={onChangeAmount}

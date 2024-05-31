@@ -12,6 +12,8 @@ interface IModalGuestProps {
   setOpen: (open: boolean) => void;
   onDismiss?: () => void;
   onConfirm?: () => void;
+  title: string;
+  description: string;
 }
 
 const ModalGuest = ({
@@ -19,6 +21,8 @@ const ModalGuest = ({
   setOpen,
   onConfirm,
   onDismiss,
+  title,
+  description,
 }: IModalGuestProps) => {
   const handleClose = () => {
     setOpen(false);
@@ -41,14 +45,10 @@ const ModalGuest = ({
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>
-          ¡Regístrate para Guardar Favoritos!
-        </DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
-            Para añadir productos a tu lista de favoritos, necesitas tener una
-            cuenta. ¡Regístrate ahora y disfruta de todas las ventajas de ser un
-            usuario registrado!
+            {description}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

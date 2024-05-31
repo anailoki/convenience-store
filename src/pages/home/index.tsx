@@ -26,6 +26,7 @@ const Home = () => {
     show: false,
     message: 'Ocurrio un error, intenta de nuevo.',
   });
+  const [alertWarning, setAlertWarning] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -71,9 +72,25 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    Notification.requestPermission().then((result) => {
+      if (result !== 'granted') {
+        setAlertWarning(true);
+        setTimeout(() => {
+          setAlertWarning(false);
+        }, 5000);
+      }
+    });
+  }, []);
+
   return (
     <section className='py-3'>
       <Container className='mt-4'>
+        {alertWarning && (
+          <Alert severity='warning' className='mb-4'>
+            No se permitio el uso de las notificaciones
+          </Alert>
+        )}
         {alert.show && (
           <Alert severity='error' className='mb-4'>
             {alert.message}
@@ -125,6 +142,15 @@ const Home = () => {
                 img={'https://cdn-icons-png.flaticon.com/512/3731/3731072.png'}
                 isAdded={!!items.find((item) => item.id === product.id)}
               />
+            ))}
+
+          {isLoading &&
+            Array.from({ length: 8 }, (_, i) => i + 1).map((_, i) => (
+              <div key={`skeleton-prod-${i}`}>
+                <Skeleton variant='rectangular' width='100%' height={120} />
+                <Skeleton variant='text' />
+                <Skeleton variant='text' />
+              </div>
             ))}
         </div>
       </Container>

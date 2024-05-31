@@ -8,12 +8,40 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-      },
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
+      // workbox: {
+      //   globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      //   runtimeCaching: [
+      //     {
+      //       urlPattern: ({ request }) => request.destination === 'image',
+      //       handler: 'CacheFirst',
+      //       options: {
+      //         cacheName: 'images-cache',
+      //         cacheableResponse: {
+      //           statuses: [0, 200],
+      //         },
+      //       },
+      //     },
+      //     {
+      //       urlPattern: ({ url }) => {
+      //         return (
+      //           url.href === 'http://localhost:3000/categories' ||
+      //           url.href === 'http://localhost:3000/products'
+      //         );
+      //       },
+      //       handler: 'NetworkFirst',
+      //       options: {
+      //         cacheName: 'api-cache',
+      //         rangeRequests: true,
+      //       },
+      //     },
+      //   ],
+      // },
       manifest: {
-        name: 'MiniMark',
-        short_name: 'MiniMark',
+        name: 'MiniMart',
+        short_name: 'MiniMart',
         description: 'Tu abarrotes en linea mas confiable',
         theme_color: '#ffffff',
         icons: [

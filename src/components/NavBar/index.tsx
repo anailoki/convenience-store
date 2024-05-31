@@ -5,10 +5,14 @@ import { Container, IconButton } from '@mui/material';
 import ROUTES from '../../shared/constants/routes';
 import Logo from '../../assets/logoMinimalista.svg';
 import { RootState } from '../../redux/store';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import ModalGuest from '../ModalGuest';
+import { LITERAL } from '../../shared/constants/literal';
 
 const NavBar = () => {
   const { items } = useSelector((state: RootState) => state.cart);
+  const [openGuestModal, setOpenGuestModal] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,7 +26,14 @@ const NavBar = () => {
 
   return (
     <header className='relative z-50'>
-      <Container fixed className='flex flex-row'>
+      <ModalGuest
+        open={openGuestModal}
+        setOpen={setOpenGuestModal}
+        title={LITERAL.modalCreateAccountTitle}
+        description={LITERAL.modalCreateAccountDescription}
+      />
+
+      <Container className='flex flex-row'>
         <div className='flex flex-row gap-12 py-3 xl:py-5  justify-between items-center'>
           {location.pathname === ROUTES.ROOT && (
             <Link
@@ -31,7 +42,7 @@ const NavBar = () => {
             >
               <img src={Logo} alt='logo' className='w-[50px] lg:w-[60px]' />
               <span className='font-medium text-cyan-400 text-2xl hidden lg:block'>
-                Mini<span className='text-cyan-800'>Mark</span>
+                Mini<span className='text-cyan-800'>Mart</span>
               </span>
             </Link>
           )}
@@ -62,7 +73,11 @@ const NavBar = () => {
             </div>
 
             <div className='border border-slate-300 rounded-full size-9 justify-center items-center'>
-              <IconButton aria-label='profile' size='small'>
+              <IconButton
+                aria-label='profile'
+                size='small'
+                onClick={() => setOpenGuestModal(true)}
+              >
                 <User size={22} />
               </IconButton>
             </div>

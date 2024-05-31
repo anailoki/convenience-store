@@ -39,7 +39,7 @@ const Catalog = () => {
   );
   const { items } = useSelector((state: RootState) => state.cart);
   const [categoriesSelected, setCategoriesSelected] = useState<string[]>([]);
-  const [priceOrder, setPriceOrder] = useState<'lower' | 'higher'>();
+  const [priceOrder, setPriceOrder] = useState<'lower' | 'higher' | ''>('');
   const [products, setProducts] = useState(allProducts);
   const [page, setPage] = React.useState(1);
   const [searchParams] = useSearchParams();
@@ -104,11 +104,14 @@ const Catalog = () => {
   }, [categoriesSelected, page, allProducts]);
 
   useEffect(() => {
+    let sortProducts = [...products];
     if (priceOrder === 'lower') {
-      setProducts((prev) => prev.sort((a, b) => (a.price < b.price ? 1 : -1)));
+      sortProducts = sortProducts.sort((a, b) => (a.price > b.price ? 1 : -1));
     } else if (priceOrder === 'higher') {
-      setProducts((prev) => prev.sort((a, b) => (a.price > b.price ? 1 : -1)));
+      sortProducts = sortProducts.sort((a, b) => (a.price < b.price ? 1 : -1));
     }
+    setProducts(sortProducts);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [priceOrder]);
 
   const handleChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,11 +125,8 @@ const Catalog = () => {
     }
   };
 
-  const handleChangeSortPrice = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeSortPrice = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPriceOrder(event.target.value as 'lower' | 'higher');
-  };
 
   const handleChangePagination = (
     _: React.ChangeEvent<unknown>,
@@ -207,26 +207,29 @@ const Catalog = () => {
           </FormGroup>
         </Collapse>
 
-        <Collapse label='precio'>
+        {/* <Collapse label='precio'>
           <FormControl>
             <RadioGroup
               aria-labelledby='radio-buttons-group-label'
               name='radio-buttons-group'
+              onChange={handleChangeSortPrice}
+              value={priceOrder}
             >
               <FormControlLabel
                 value='lower'
-                control={<Radio onChange={handleChangeSortPrice} />}
+                control={<Radio />}
                 label='Menor a mayor'
               />
               <FormControlLabel
                 value='higher'
-                control={<Radio onChange={handleChangeSortPrice} />}
+                control={<Radio />}
                 label='Mayor a menor'
               />
             </RadioGroup>
           </FormControl>
-        </Collapse>
+        </Collapse> */}
       </Drawer>
+
       <div className='flex flex-col lg:flex-row justify-between mb-4'>
         <h2 className='text-2xl font-medium pb-2'>Todos los productos</h2>
         <div className='border border-slate-300 rounded-full flex jusify-between w-full lg:w-fit'>
@@ -253,8 +256,10 @@ const Catalog = () => {
         </div>
         <p className='my-1'>Resultados: {products.length}</p>
       </div>
+
       <hr />
-      <div className='flex flex-row justify-between gap-x-4 xl:gap-8 '>
+
+      <div className='flex flex-col md:flex-row justify-between gap-x-4 xl:gap-8'>
         <div className='mt-5 hidden lg:block'>
           <h3 className='text-lg font-medium'>Filtros</h3>
           {categoriesSelected.length > 0 && (
@@ -290,15 +295,18 @@ const Catalog = () => {
               <RadioGroup
                 aria-labelledby='radio-buttons-group-label'
                 name='radio-buttons-group'
+                // defaultValue='lower'
+                onChange={handleChangeSortPrice}
+                value={priceOrder}
               >
                 <FormControlLabel
                   value='lower'
-                  control={<Radio onChange={handleChangeSortPrice} />}
+                  control={<Radio />}
                   label='Menor a mayor'
                 />
                 <FormControlLabel
                   value='higher'
-                  control={<Radio onChange={handleChangeSortPrice} />}
+                  control={<Radio />}
                   label='Mayor a menor'
                 />
               </RadioGroup>
@@ -306,7 +314,7 @@ const Catalog = () => {
           </Collapse>
         </div>
 
-        <div className=''>
+        <div className='w-full'>
           <div className='lg:hidden flex w-full flex-row justify-between'>
             <Button
               className='!my-2'
@@ -328,20 +336,22 @@ const Catalog = () => {
             )}
           </div>
 
-          {isLoading && <p>Cargando...</p>}
+          {isLoading && <p className='text-center'>Cargando...</p>}
 
-          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-3 pb-4'>
-            {products.map(({ name, price, id }) => (
-              <ProductCard
-                key={`product-${id}-${name}`}
-                name={name}
-                price={price}
-                id={id}
-                img='https://cdn-icons-png.flaticon.com/512/3731/3731072.png'
-                isAdded={!!items.find((item) => item.id === id)}
-              />
-            ))}
-          </div>
+          {products.length > 0 && (
+            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-3 pb-4'>
+              {products.map(({ name, price, id }) => (
+                <ProductCard
+                  key={`product-${id}-${name}`}
+                  name={name}
+                  price={price}
+                  id={id}
+                  img='https://cdn-icons-png.flaticon.com/512/3731/3731072.png'
+                  isAdded={!!items.find((item) => item.id === id)}
+                />
+              ))}
+            </div>
+          )}
 
           {products.length > 0 && (
             <div className='flex justify-center mt-3'>
@@ -353,8 +363,8 @@ const Catalog = () => {
               />
             </div>
           )}
-          {products.length === 0 && (
-            <div className='flex flex-col justify-center w-full '>
+          {products.length === 0 && !isLoading && (
+            <div className='grid justify-items-center'>
               <img src={NotFound} alt='Not found' />
               <p className='text-center'>No se encontraron productos</p>
             </div>

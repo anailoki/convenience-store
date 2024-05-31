@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react';
 import { Button, Container, Switch } from '@mui/material';
-import { MapPinSimpleArea } from '@phosphor-icons/react';
+import { MapPinSimpleArea, SpinnerGap } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCart from '../../components/ProductCart';
 import { RootState } from '../../redux/store';
 import { UTILS } from '../../shared/utils/index';
-import { deleteProduct, updateAmount } from '../../redux/slices/cart.slice';
+import {
+  clearCart,
+  deleteProduct,
+  updateAmount,
+} from '../../redux/slices/cart.slice';
 import ROUTES from '../../shared/constants/routes';
 import EmptyCartImg from '../../assets/img/empty-cart.webp';
+import Logo from '../../assets/logoMinimalista.svg';
+import { LITERAL } from '../../shared/constants/literal';
 
 const Cart = () => {
   const { total, items } = useSelector((state: RootState) => state.cart);
-  const [isPickup, setIsPickup] = useState(true);
+  const [isPickup, setIsPickup] = useState(false);
   const [deliveryCost, setDeliveryCost] = useState(0);
+  const [loadingPurchase, setLoadingPurchase] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,12 +33,33 @@ const Cart = () => {
     }
   }, [isPickup]);
 
+  const sendNotification = (title: string, body: string) => {
+    const notifTitle = title;
+    const notifBody = body;
+    const options = {
+      body: notifBody,
+      icon: Logo,
+    };
+    new Notification(notifTitle, options);
+  };
+
   const handlerDeleteItem = (id: string) => {
     dispatch(deleteProduct(id));
+    sendNotification('Producto eliminado', LITERAL.productDeleted);
   };
 
   const handlerUpdateAmount = (id: string, count: number) => {
     dispatch(updateAmount({ id, count }));
+  };
+
+  const handlerPay = () => {
+    setLoadingPurchase(true);
+    setTimeout(() => {
+      dispatch(clearCart());
+      setLoadingPurchase(false);
+      sendNotification('Compra realizada', LITERAL.purchaseSuccess);
+      navigate(`${ROUTES.ROOT}`);
+    }, 3000);
   };
 
   return (
@@ -82,7 +110,6 @@ const Cart = () => {
             Recoger en tienda
           </span>
           <Switch
-            defaultChecked
             onChange={(e) => setIsPickup(e.target.checked)}
             checked={isPickup}
             inputProps={{ 'aria-label': 'pickup' }}
@@ -106,9 +133,14 @@ const Cart = () => {
         <Button
           variant='contained'
           className='w-full'
-          disabled={items.length === 0}
+          disabled={items.length === 0 || loadingPurchase}
+          onClick={handlerPay}
         >
-          Pagar
+          {loadingPurchase ? (
+            <SpinnerGap className='animate-spin' size={32} />
+          ) : (
+            'Pagar'
+          )}
         </Button>
       </div>
     </Container>

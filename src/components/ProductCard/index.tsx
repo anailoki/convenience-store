@@ -1,5 +1,5 @@
-import { Button, IconButton } from '@mui/material';
-import { Heart, ShoppingCart } from '@phosphor-icons/react';
+import { Button, IconButton, Slide } from '@mui/material';
+import { Heart, ShoppingCart, SpinnerGap } from '@phosphor-icons/react';
 import { useState } from 'react';
 import ModalGuest from '../ModalGuest';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,10 @@ import Counter from '../Counter';
 import { useDispatch } from 'react-redux';
 import { addProduct } from '../../redux/slices/cart.slice';
 import { UTILS } from '../../shared/utils';
-
+import { postShoppingCart } from '../../services/cart.service';
+import { showAlert } from '../../redux/slices/alert.slice';
+import { LITERAL } from '../../shared/constants/literal';
+import Logo from '../../assets/logoMinimalista.svg';
 interface IProductCardProps {
   id: string;
   name: string;
@@ -29,15 +32,55 @@ const ProductCard = ({
   const [openGuestModal, setOpenGuestModal] = useState(false);
   const [showCounter, setShowCounter] = useState(false);
   const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handlerGoToCart = () => {
-    dispatch(addProduct({ id, name, price, count: showCounter ? count : 1 }));
-    if (!showCounter) {
-      navigate(`${ROUTES.CART}`);
-    } else {
-      setShowCounter(false);
+  const handlerGoToCart = async () => {
+    try {
+      setIsLoading(true);
+
+      const idCart = sessionStorage.getItem('cartId');
+      const response = await postShoppingCart({
+        productId: id,
+        quantity: count,
+        cartId: idCart || '',
+      });
+      if (response.message.includes('successfully')) {
+        if (!idCart) {
+          sessionStorage.setItem('cartId', response.cartId);
+        }
+        dispatch(
+          addProduct({
+            id,
+            name,
+            price,
+            count: showCounter ? count : 1,
+          })
+        );
+        if (!showCounter) {
+          navigate(`${ROUTES.CART}`);
+        } else {
+          cartNotification();
+          setShowCounter(false);
+        }
+      } else {
+        const alert = {
+          type: 'error' as const,
+          title: 'Error',
+          description: LITERAL.errorAddProduct,
+        };
+        dispatch(showAlert(alert));
+      }
+    } catch (error) {
+      const alert = {
+        type: 'error' as const,
+        title: 'Error',
+        description: LITERAL.errorAddProduct,
+      };
+      dispatch(showAlert(alert));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -49,16 +92,32 @@ const ProductCard = ({
       setShowCounter(false);
     }
   };
+  const cartNotification = () => {
+    const notifTitle = 'Producto añadido al carrito';
+    const notifBody = 'Revisa tu carrito para finalizar la compra';
+    const options = {
+      body: notifBody,
+      icon: Logo,
+    };
+    new Notification(notifTitle, options);
+  };
 
   return (
     <div className='relative bg-slate-50 shadow rounded-md p-4 flex flex-col hover:shadow-lg transition duration-300 ease-in-out cursor-pointer'>
-      <ModalGuest open={openGuestModal} setOpen={setOpenGuestModal} />
+      <ModalGuest
+        open={openGuestModal}
+        setOpen={setOpenGuestModal}
+        title={LITERAL.modalGuestTitle}
+        description={LITERAL.modalGuestDescription}
+      />
       {isAdded && (
-        <div className='bg-lime-200 absolute top-5 left-0 rounded-r-xl px-2'>
-          <span className='text-[12px] text-green-600 font-medium'>
-            Producto añadido
-          </span>
-        </div>
+        <Slide direction='right' in={isAdded} mountOnEnter unmountOnExit>
+          <div className='bg-lime-200 absolute top-5 left-0 rounded-r-xl px-2'>
+            <span className='text-[12px] text-green-600 font-medium'>
+              Producto añadido
+            </span>
+          </div>
+        </Slide>
       )}
       <div className='flex justify-end'>
         <IconButton onClick={() => setOpenGuestModal(true)} className='!px-0'>
@@ -92,12 +151,17 @@ const ProductCard = ({
               </IconButton>
             </div>
             <Button
+              disabled={isLoading}
               variant='outlined'
               className='!hidden lg:!block !normal-case w-full h-8 !leading-none'
               size='small'
               onClick={() => setShowCounter(true)}
             >
-              <span>Añadir al carrito</span>
+              {isLoading ? (
+                <SpinnerGap className='animate-spin' size={32} />
+              ) : (
+                <span>Añadir al carrito</span>
+              )}
             </Button>
           </>
         ) : (
@@ -105,6 +169,7 @@ const ProductCard = ({
         )}
 
         <Button
+          disabled={isLoading}
           variant='contained'
           size='small'
           className={`!normal-case w-full   h-8 ${
@@ -112,7 +177,13 @@ const ProductCard = ({
           }`}
           onClick={handlerGoToCart}
         >
-          {showCounter ? 'Añadir' : 'Comprar'}
+          {isLoading ? (
+            <SpinnerGap className='animate-spin' size={32} />
+          ) : showCounter ? (
+            'Añadir'
+          ) : (
+            'Comprar'
+          )}
         </Button>
       </div>
     </div>
