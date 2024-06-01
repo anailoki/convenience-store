@@ -102,7 +102,9 @@ const ProductCard = ({
       body: notifBody,
       icon: Logo,
     };
-    new Notification(notifTitle, options);
+    if (Notification) {
+      new Notification(notifTitle, options);
+    }
   };
 
   const handlerFavorite = () => {
