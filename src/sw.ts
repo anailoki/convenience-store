@@ -150,7 +150,7 @@ setCatchHandler(({ event }): Promise<Response> => {
   }
 });
 
-//push Notification - prepar to receive push notification from server
+//push Notification - prepare to receive push notification from server
 self.addEventListener('push', (event) => {
   const payload = event.data?.text() ?? 'no payload';
   event.waitUntil(
