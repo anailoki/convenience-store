@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Render Modal Guest component > should render the children when collapse is open 1`] = `
+<div
+  aria-hidden="true"
+>
+  <div />
+</div>
+`;

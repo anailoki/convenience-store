@@ -12,13 +12,18 @@ const Collapse = ({ label, children, isOpen }: ICollapseProps) => {
   return (
     <>
       <div
+        data-testid='collapse'
         className='bg-slate-100 py-3 px-2 flex gap-x-8 justify-between items-center cursor-pointer mb-3'
         onClick={() => setOpen(!open)}
       >
         <span className='uppercase text-md font-medium'>{label}</span>
         {open ? <Minus size={20} /> : <Plus size={20} />}
       </div>
-      {open && <div className='my-3 px-4'>{children}</div>}
+      {open && (
+        <div className='my-3 px-4' data-testid='children-collapse'>
+          {children}
+        </div>
+      )}
     </>
   );
 };

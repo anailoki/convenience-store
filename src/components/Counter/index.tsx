@@ -17,7 +17,10 @@ const Counter = ({ countInit = 0, minValue = 0, onChage }: ICounterProps) => {
   }, [count]);
 
   return (
-    <div className='border border-gray-400 gap-x-2 p-1 flex flex-row justify-between rounded-xl w-full'>
+    <div
+      data-testid='counter'
+      className='border border-gray-400 gap-x-2 p-1 flex flex-row justify-between rounded-xl w-full'
+    >
       <IconButton
         aria-label='disminuir'
         size='small'
@@ -29,7 +32,7 @@ const Counter = ({ countInit = 0, minValue = 0, onChage }: ICounterProps) => {
       </IconButton>
       <p className='text-gray-500'>{count}</p>
       <IconButton
-        aria-label='disminuir'
+        aria-label='aumentar'
         size='small'
         onClick={() => setCount((prev) => prev + 1)}
       >

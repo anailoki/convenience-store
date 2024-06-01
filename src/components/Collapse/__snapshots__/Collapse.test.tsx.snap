@@ -1,0 +1,35 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Render Collapse component > should render the children when collapse is open 1`] = `
+<div>
+  <div
+    class="bg-slate-100 py-3 px-2 flex gap-x-8 justify-between items-center cursor-pointer mb-3"
+    data-testid="collapse"
+  >
+    <span
+      class="uppercase text-md font-medium"
+    >
+      Categorias
+    </span>
+    <svg
+      fill="currentColor"
+      height="20"
+      viewBox="0 0 256 256"
+      width="20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"
+      />
+    </svg>
+  </div>
+  <div
+    class="my-3 px-4"
+    data-testid="children-collapse"
+  >
+    <h1>
+      Todas Categorias...
+    </h1>
+  </div>
+</div>
+`;

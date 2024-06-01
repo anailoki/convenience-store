@@ -24,13 +24,13 @@ const ProductCard = ({
     <>
       <div className='sm:hidden flex relative gap-x-2 shadow-md mb-6 border border-slate-100 rounded-md p-1'>
         <div className='absolute right-0'>
-          <IconButton onClick={onDelete}>
+          <IconButton onClick={onDelete} aria-label='borrar producto'>
             <XCircle size={24} />
           </IconButton>
         </div>
         <img
           src={image}
-          alt='Imagen del producto'
+          alt={`Imagen del producto ${name}`}
           className='size-20 xl:size-22 '
         />
 
@@ -63,7 +63,7 @@ const ProductCard = ({
             minValue={1}
           />
           <p className='w-full text-center'>{UTILS.formatCurrency(price)}</p>
-          <IconButton onClick={onDelete}>
+          <IconButton onClick={onDelete} aria-label='borrar producto'>
             <XCircle size={24} />
           </IconButton>
         </div>

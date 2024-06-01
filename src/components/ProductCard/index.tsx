@@ -147,7 +147,7 @@ const ProductCard = ({
       <div onClick={onClick}>
         <img
           src={img}
-          alt='Product'
+          alt={`Imagen de ${name}`}
           className='h-20 max-h-20 md:h-40 md:max-h-40 mx-auto'
         />
         <div className='flex flex-col items-center'>
