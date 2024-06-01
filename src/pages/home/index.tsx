@@ -15,6 +15,7 @@ import ROUTES from '../../shared/constants/routes';
 import { setCategories, setProducts } from '../../redux/slices/products.slice';
 import { RootState } from '../../redux/store';
 import { UTILS } from '../../shared/utils';
+import { LITERAL } from '../../shared/constants/literal';
 
 const Home = () => {
   const { allCategories, allProducts } = useSelector(
@@ -24,7 +25,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
-    message: 'Ocurrio un error, intenta de nuevo.',
+    message: LITERAL.errorGeneral,
   });
   const [alertWarning, setAlertWarning] = useState(false);
   const dispatch = useDispatch();
@@ -59,8 +60,7 @@ const Home = () => {
         if (!Array.isArray(categories) || !Array.isArray(products)) {
           setAlert({
             show: true,
-            message:
-              'Ocurrio un error al mostrar las categorias o productos, intenta de nuevo',
+            message: LITERAL.errorGetData,
           });
           hideAlert();
         }
@@ -131,18 +131,19 @@ const Home = () => {
         </div>
 
         <div className='grid grid-cols-2 md:grid-cols-4 gap-4 mt-3 pb-4'>
-          {allProducts
-            .filter((prod) => recommendedIdProducts.includes(Number(prod.id)))
-            .map((product) => (
-              <ProductCard
-                id={product.id}
-                key={product.name}
-                name={product.name}
-                price={product.price}
-                img={PRODUCTS_IMG[product.id]}
-                isAdded={!!items.find((item) => item.id === product.id)}
-              />
-            ))}
+          {!isLoading &&
+            allProducts
+              .filter((prod) => recommendedIdProducts.includes(Number(prod.id)))
+              .map((product) => (
+                <ProductCard
+                  id={product.id}
+                  key={product.name}
+                  name={product.name}
+                  price={product.price}
+                  img={PRODUCTS_IMG[product.id]}
+                  isAdded={!!items.find((item) => item.id === product.id)}
+                />
+              ))}
 
           {isLoading &&
             Array.from({ length: 8 }, (_, i) => i + 1).map((_, i) => (

@@ -26,9 +26,9 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <div className='flex flex-col relative h-full w-full justify-between'>
       <NavBar />
-      <div className='w-full h-full relative'>
+      <div className='w-full h-full '>
         {alert.showAlert && (
-          <div className='max-w-fit w-fit absolute z-30 right-0 flex justify-center items-center'>
+          <div className='fixed max-w-fit w-fit z-30 right-0 flex justify-center items-center'>
             <Slide
               direction='left'
               in={alert.showAlert}

@@ -6,10 +6,13 @@ export const LITERAL = {
   purchaseSuccess: 'Tu compra ha sido realizada con éxito',
   modalGuestTitle: '¡Regístrate para Guardar Favoritos!',
   modalGuestDescription:
-    'Para añadir productos a tu lista de favoritos, necesitas tener una cuenta. ¡Regístrate ahora y disfruta de todas las ventajas de ser un usuario registrado!',
+    'Para añadir productos a tu lista de favoritos, necesitas tener una cuenta. Regístrate ahora y disfruta de todas las ventajas.',
   modalCreateAccountTitle: '¡Regístrate con nosotros!',
   modalCreateAccountDescription:
     '¡Regístrate ahora y disfruta de todas las ventajas de ser un usuario registrado!',
   errorInputs: 'Por favor, llena todos los campos requeridos*',
   successRegister: '¡Registro exitoso!',
+  errorGeneral: 'Ocurrió un error, intenta de nuevo',
+  errorGetData:
+    'Ocurrio un error al mostrar las categorias o productos, intenta de nuevo',
 };

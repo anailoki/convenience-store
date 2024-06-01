@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { LITERAL } from '../../shared/constants/literal';
 import { useDispatch } from 'react-redux';
 import { showAlert } from '../../redux/slices/alert.slice';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const userString = localStorage.getItem('user');
@@ -19,6 +20,7 @@ const Profile = () => {
   const [form, setForm] = useState(user);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validateEmail = (email: string) => {
     return String(email)
@@ -48,6 +50,7 @@ const Profile = () => {
       description: 'Tus datos han sido guardados correctamente',
     };
     dispatch(showAlert(alert));
+    navigate(-1);
   };
   return (
     <Container>
@@ -68,6 +71,7 @@ const Profile = () => {
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           required
           className='w-full'
+          helperText={form.name === '' ? 'Campo requerido' : ''}
         />
         <TextField
           name='lastname'
@@ -78,9 +82,10 @@ const Profile = () => {
           onChange={(e) => setForm({ ...form, lastname: e.target.value })}
           required
           className='w-full'
+          helperText={form.lastname === '' ? 'Campo requerido' : ''}
         />
         <TextField
-          error={!validateEmail(form.email)}
+          error={!validateEmail(form.email) && form.email !== ''}
           name='email'
           id='email-label'
           label='Email'
@@ -90,7 +95,11 @@ const Profile = () => {
           required
           className='w-full'
           helperText={
-            !validateEmail(form.email) ? 'Email inválido' : 'Email válido'
+            form.email === ''
+              ? 'Campo requerido'
+              : !validateEmail(form.email)
+              ? 'Email inválido'
+              : 'Email válido'
           }
         />
         <TextField
@@ -102,6 +111,7 @@ const Profile = () => {
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
           required
           className='w-full'
+          helperText={form.phone === '' ? 'Campo requerido' : ''}
         />
 
         <TextField

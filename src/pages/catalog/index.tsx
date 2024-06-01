@@ -15,7 +15,13 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { Funnel, MagnifyingGlass, Trash, X } from '@phosphor-icons/react';
+import {
+  Funnel,
+  MagnifyingGlass,
+  SpinnerGap,
+  Trash,
+  X,
+} from '@phosphor-icons/react';
 
 import ProductCard from '../../components/ProductCard';
 import Collapse from '../../components/Collapse';
@@ -337,7 +343,12 @@ const Catalog = () => {
             )}
           </div>
 
-          {isLoading && <p className='text-center'>Cargando...</p>}
+          {isLoading && (
+            <div className='flex flex-col justify-center items-center w-full my-6'>
+              <SpinnerGap size={60} className='animate-spin' />
+              <p className='text-center'>Cargando...</p>
+            </div>
+          )}
 
           {products.length > 0 && (
             <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-3 pb-4'>

@@ -121,6 +121,7 @@ const ProductCard = ({
         setOpen={setOpenGuestModal}
         title={LITERAL.modalGuestTitle}
         description={LITERAL.modalGuestDescription}
+        onConfirm={() => navigate(ROUTES.PROFILE)}
       />
       {isAdded && (
         <Slide direction='right' in={isAdded} mountOnEnter unmountOnExit>
@@ -151,7 +152,7 @@ const ProductCard = ({
           className='h-20 max-h-20 md:h-40 md:max-h-40 mx-auto'
         />
         <div className='flex flex-col items-center'>
-          <p className='text-lg font-bold text-center py-1 leading-none mt-2'>
+          <p className='text-lg font-bold text-center py-1 leading-none mt-2 h-11'>
             {name}
           </p>
           <p className='text-md'>{UTILS.formatCurrency(price)}</p>
@@ -161,7 +162,7 @@ const ProductCard = ({
       <div
         className={`flex ${
           showCounter ? 'flex-col' : 'flex-row'
-        }  gap-3 sm:flex-row mt-2  justify-center xl:justify-between`}
+        }  gap-3 sm:flex-row mt-3  justify-center xl:justify-between`}
       >
         {!showCounter ? (
           <>
