@@ -96,23 +96,28 @@ Este proyecto es una tienda en línea desarrollada con React y Vite. La aplicaci
 4.  Gestión del Estado
     Decisión: Redux
 
-    Redux: Se implemento Redux para la gestión de estado global, especialmente útil para manejar el estado del carrito, el estado de la data de los productos, y otros datos globales.
+    Redux: Se implementó Redux para la gestión de estado global, especialmente útil para manejar el estado del carrito, el estado de la data de los productos, y otros datos globales.
 
 5.  Estilos y UI/UX
     Decisión: Framework de UI
 
-    Tailwind CSS: Se implemento Tailwind CSS para un diseño rápido y eficiente.
-    Componentes de UI: Utilizar Material-Ui por la facilidad que tiene de implementarlso en un poryecto y la variedad de modernos componentes.
+    Tailwind CSS: Se implementó Tailwind CSS para un diseño rápido y eficiente.
+
+    Componentes de UI: Se utilizo Material-Ui por la facilidad que tiene de implementarlos en un proyecto y la variedad de modernos componentes.
 
 6.  Pruebas
     Decisión: Herramientas de Pruebas
 
-    Vitest: Se implemento para las pruebas unitarias y de integración.
-    Testing Library: Se implemento @testing-library/react para pruebas de componentes React.
+    Vitest: Se implementó para las pruebas unitarias y de integración.
+    Testing Library: Se implementó @testing-library/react para pruebas de componentes React.
 
-    Cobertura de Código: Se configuto Vitest para generar informes de cobertura de código.
+    Cobertura de Código: Se configuro Vitest para generar informes de cobertura de código.
 
 7.  Despliegue y CI/CD
     Decisión: Plataforma de Despliegue
 
-    Netlify: Se desplego el frontend en Netlify por su facilidad de uso e integracion que tiene con GITHUB.
+    Netlify: Se desplegó el frontend en Netlify por su facilidad de uso e integración que tiene con GITHUB.
+
+## Lighthouse Report
+
+![alt text](lighthouse.png)
