@@ -14,6 +14,7 @@ import {
   Pagination,
   Radio,
   RadioGroup,
+  Switch,
 } from '@mui/material';
 import {
   Funnel,
@@ -41,7 +42,7 @@ import { PRODUCTS_IMG } from '../../shared/constants/images';
 const itemsPerPage = 8;
 
 const Catalog = () => {
-  const { allCategories, allProducts } = useSelector(
+  const { allCategories, allProducts, favorites } = useSelector(
     (state: RootState) => state.products
   );
   const { items } = useSelector((state: RootState) => state.cart);
@@ -56,6 +57,7 @@ const Catalog = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [search, setSearch] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showFavoritos, setShowFavoritos] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -90,6 +92,28 @@ const Catalog = () => {
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
 
+    if (showFavoritos) {
+      let favoritedProducts = allProducts.filter((product) =>
+        favorites.includes(product.id)
+      );
+
+      if (categoriesSelected.length > 0) {
+        favoritedProducts = allProducts.filter(
+          (product) =>
+            favorites.includes(product.id) &&
+            categoriesSelected.includes(product.category)
+        );
+      }
+      const selectedItems = favoritedProducts.slice(
+        startIndex,
+        startIndex + itemsPerPage
+      );
+
+      setProducts(selectedItems);
+      setTotalPages(Math.ceil(favoritedProducts.length / itemsPerPage));
+      return;
+    }
+
     if (categoriesSelected.length === 0) {
       const selectedItems = allProducts.slice(
         startIndex,
@@ -108,7 +132,7 @@ const Catalog = () => {
     const items = productsFilters.slice(startIndex, startIndex + itemsPerPage);
     setProducts(items);
     setTotalPages(Math.ceil(productsFilters.length / itemsPerPage));
-  }, [categoriesSelected, page, allProducts]);
+  }, [categoriesSelected, page, allProducts, showFavoritos, favorites]);
 
   useEffect(() => {
     let sortProducts = [...products];
@@ -214,11 +238,11 @@ const Catalog = () => {
           </FormGroup>
         </Collapse>
 
-        {/* <Collapse label='precio'>
+        <Collapse label='precio'>
           <FormControl>
             <RadioGroup
-              aria-labelledby='radio-buttons-group-label'
-              name='radio-buttons-group'
+              aria-labelledby='radio-buttons-precio'
+              name='radio-buttons-precio'
               onChange={handleChangeSortPrice}
               value={priceOrder}
             >
@@ -234,7 +258,7 @@ const Catalog = () => {
               />
             </RadioGroup>
           </FormControl>
-        </Collapse> */}
+        </Collapse>
       </Drawer>
 
       <div className='flex flex-col lg:flex-row justify-between mb-4'>
@@ -279,6 +303,17 @@ const Catalog = () => {
               Limpiar Filtros
             </Button>
           )}
+          <FormGroup className='mt-2 mb-4'>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={showFavoritos}
+                  onChange={(e) => setShowFavoritos(e.target.checked)}
+                />
+              }
+              label='Mostrar mis favoritos'
+            />
+          </FormGroup>
           <Collapse label='categorias' isOpen={true}>
             <FormGroup>
               {allCategories.map(({ id, name }) => (
@@ -302,7 +337,6 @@ const Catalog = () => {
               <RadioGroup
                 aria-labelledby='radio-buttons-group-label'
                 name='radio-buttons-group'
-                // defaultValue='lower'
                 onChange={handleChangeSortPrice}
                 value={priceOrder}
               >
@@ -322,25 +356,41 @@ const Catalog = () => {
         </div>
 
         <div className='w-full'>
-          <div className='lg:hidden flex w-full flex-row justify-between'>
-            <Button
-              className='!my-2'
-              size='small'
-              startIcon={<Funnel size={18} />}
-              onClick={() => setOpenDrawer(true)}
-            >
-              Filtros
-            </Button>
-            {categoriesSelected.length > 0 && (
+          <div className='lg:hidden flex w-full flex-col gap-2'>
+            <div className='flex justify-between'>
               <Button
                 className='!my-2'
                 size='small'
-                startIcon={<Trash size={18} />}
-                onClick={() => setCategoriesSelected([])}
+                startIcon={<Funnel size={18} />}
+                onClick={() => setOpenDrawer(true)}
               >
-                Limpiar Filtros
+                Filtros
               </Button>
-            )}
+
+              {categoriesSelected.length > 0 && (
+                <Button
+                  className='!my-2 !p-0'
+                  size='small'
+                  startIcon={<Trash size={18} />}
+                  onClick={() => setCategoriesSelected([])}
+                >
+                  Limpiar Filtros
+                </Button>
+              )}
+            </div>
+            <FormGroup className='mt-2 mb-4'>
+              <FormControlLabel
+                className='!text-sm'
+                control={
+                  <Switch
+                    checked={showFavoritos}
+                    onChange={(e) => setShowFavoritos(e.target.checked)}
+                    size='small'
+                  />
+                }
+                label='Mostrar mis favoritos'
+              />
+            </FormGroup>
           </div>
 
           {isLoading && (
