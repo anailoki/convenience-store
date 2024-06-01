@@ -102,8 +102,15 @@ const ProductCard = ({
       body: notifBody,
       icon: Logo,
     };
-    if (Notification) {
+    if ('Notification' in window) {
       new Notification(notifTitle, options);
+    } else {
+      const alert = {
+        type: 'success' as const,
+        title: notifTitle,
+        description: notifBody,
+      };
+      dispatch(showAlert(alert));
     }
   };
 

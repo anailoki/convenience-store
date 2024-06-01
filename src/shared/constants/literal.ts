@@ -15,4 +15,5 @@ export const LITERAL = {
   errorGeneral: 'Ocurrió un error, intenta de nuevo',
   errorGetData:
     'Ocurrio un error al mostrar las categorias o productos, intenta de nuevo',
+  alertNotification: 'Las notificaciones no están soportadas',
 };

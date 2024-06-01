@@ -16,6 +16,7 @@ import EmptyCartImg from '../../assets/img/empty-cart.webp';
 import Logo from '../../assets/logoMinimalista.svg';
 import { LITERAL } from '../../shared/constants/literal';
 import { PRODUCTS_IMG } from '../../shared/constants/images';
+import { showAlert } from '../../redux/slices/alert.slice';
 
 const Cart = () => {
   const { total, items } = useSelector((state: RootState) => state.cart);
@@ -41,8 +42,15 @@ const Cart = () => {
       body: notifBody,
       icon: Logo,
     };
-    if (Notification) {
+    if ('Notification' in window) {
       new Notification(notifTitle, options);
+    } else {
+      const alert = {
+        type: 'success' as const,
+        title: notifTitle,
+        description: notifBody,
+      };
+      dispatch(showAlert(alert));
     }
   };
 

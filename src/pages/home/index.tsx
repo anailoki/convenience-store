@@ -73,7 +73,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (Notification) {
+    if ('Notification' in window) {
       Notification.requestPermission().then((result) => {
         if (result !== 'granted') {
           setAlertWarning(true);
@@ -82,6 +82,11 @@ const Home = () => {
           }, 5000);
         }
       });
+    } else {
+      setAlertWarning(true);
+      setTimeout(() => {
+        setAlertWarning(false);
+      }, 5000);
     }
   }, []);
 
