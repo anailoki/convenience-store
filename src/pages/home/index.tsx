@@ -73,14 +73,16 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    Notification.requestPermission().then((result) => {
-      if (result !== 'granted') {
-        setAlertWarning(true);
-        setTimeout(() => {
-          setAlertWarning(false);
-        }, 5000);
-      }
-    });
+    if (Notification) {
+      Notification.requestPermission().then((result) => {
+        if (result !== 'granted') {
+          setAlertWarning(true);
+          setTimeout(() => {
+            setAlertWarning(false);
+          }, 5000);
+        }
+      });
+    }
   }, []);
 
   return (
